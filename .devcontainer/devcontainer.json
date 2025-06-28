@@ -1,0 +1,32 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
+{
+    "name": "Debian",
+    "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+
+    // Assurez-vous que l'utilisateur est bien configuré (souvent "vscode" par défaut)
+    "remoteUser": "vscode",
+    
+    "mounts": [
+        // Monte le socket de l'agent SSH de l'hôte dans le conteneur
+        "type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly"
+    ],
+
+    // Indique au Dev Container où trouver le socket de l'agent SSH monté
+    "containerEnv": {
+        "SSH_AUTH_SOCK": "/tmp/ssh-auth.sock"
+    },
+    // --- Fin de la section CLÉ ---
+
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {},
+        // Ajoutez cette fonctionnalité pour s'assurer que les outils SSH sont bien présents dans le conteneur
+        "ghcr.io/devcontainers/features/git": {
+            "version": "latest"
+        }
+        // Vous n'avez pas besoin de "installGitCredentialManager": true ici si vous utilisez SSH pour Git.
+        // Mais l'avoir ne nuit pas si jamais vous passez à HTTPS ou si d'autres personnes utilisent HTTPS.
+    },
+
+    "forwardPorts": []
+}
